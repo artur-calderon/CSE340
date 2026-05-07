@@ -9,18 +9,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "src/views")); // Set the views directory
+
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "src/views/home.html"));
+	const title = "Home";
+	res.render("home", { title });
 });
 
 app.get("/organizations", (req, res) => {
-	res.sendFile(path.join(__dirname, "src/views/organizations.html"));
+	const title = "Our Partner Organizations";
+	res.render("organizations", { title });
 });
 
 app.get("/projects", (req, res) => {
-	res.sendFile(path.join(__dirname, "src/views/projects.html"));
+	const title = "Service Projects";
+	res.render("projects", { title });
 });
 
 app.listen(PORT, () => {
