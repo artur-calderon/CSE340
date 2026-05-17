@@ -1,18 +1,42 @@
 <%- include('partials/header') %>
 <main>
+	<link rel="stylesheet" href="/css/main.css">
 	<h1><%= title %></h1>
 
 	<h2>Upcoming Service Projects</h2>
-	<ul>
-		<li>
-			Park Cleanup - Join us to clean up local parks and make them
-			beautiful!
-		</li>
-		<li>Food Drive - Help collect and distribute food to those in need.</li>
-		<li>
-			Community Tutoring - Volunteer to tutor students in various
-			subjects.
-		</li>
-	</ul>
+
+
+	<table class="projects-table">
+		<thead>
+			<tr>
+				<th>Organization</th>
+				<th>Project</th>
+				<th>Date</th>
+			</tr>
+		</thead>
+			<tbody>
+				<%
+				// Group projects by organization_name so each org appears once with rowspan
+				const groups = {};
+				projects.forEach(project => {
+					const org = project.organization_name || '—';
+					if (!groups[org]) groups[org] = [];
+					groups[org].push(project);
+				});
+				const orgNames = Object.keys(groups);
+				%>
+				<% orgNames.forEach(org => { const list = groups[org]; %>
+					<% list.forEach((project, idx) => { %>
+					<tr>
+						<% if (idx === 0) { %>
+						<td rowspan="<%= list.length %>"><%= org %></td>
+						<% } %>
+						<td><%= project.title %></td>
+						<td><%= new Date(project.date).toLocaleDateString('en-US',{ year: 'numeric', month: 'long', day: 'numeric' }) %></td>
+					</tr>
+					<% }) %>
+				<% }) %>
+			</tbody>
+	</table>
 </main>
 <%- include('partials/footer') %>

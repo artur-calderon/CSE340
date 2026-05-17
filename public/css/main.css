@@ -130,3 +130,48 @@ footer{
     main ul li{flex-direction:column;align-items:flex-start}
     main ul li img{width:56px;height:56px}
 }
+
+/* Projects table — modern, project-styled */
+.projects-table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    background:transparent;
+}
+.projects-table thead{
+    background: linear-gradient(180deg, #ffffff, #fbfdff);
+}
+.projects-table th, .projects-table td{
+    padding:14px 16px;
+    text-align:left;
+}
+.projects-table th{
+    font-weight:700;
+    color:var(--muted);
+    font-size:0.95rem;
+    letter-spacing:0.2px;
+}
+.projects-table tbody tr{
+    background:var(--card);
+    transition:transform .15s ease, box-shadow .15s ease;
+}
+.projects-table tbody tr:nth-child(even){
+    background:rgba(2,6,23,0.02);
+}
+.projects-table tbody tr:hover{
+    transform: translateY(-4px);
+    box-shadow:0 8px 20px rgba(15,23,36,0.06);
+}
+.projects-table td{
+    color:var(--text);
+    font-weight:500;
+}
+@media (max-width:720px){
+    .projects-table{display:block; width:100%; overflow:auto;}
+    .projects-table thead{display:table-header-group}
+    .projects-table tr{display:table-row}
+    .projects-table th, .projects-table td{white-space:nowrap; padding:12px 10px}
+}

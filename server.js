@@ -3,6 +3,8 @@ import { fileURLToPath } from "url";
 import path from "path";
 import { testConnection } from "./src/models/db.js";
 import { getAllOrganizations } from "./src/models/organizations.js";
+import { getAllProjects } from "./src/models/project.js";
+import { getAllCategories } from "./src/models/categories.js";
 
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || "production";
 const PORT = process.env.PORT || 3000;
@@ -31,14 +33,26 @@ app.get("/organizations", async (req, res) => {
 	}
 });
 
-app.get("/projects", (req, res) => {
-	const title = "Service Projects";
-	res.render("projects", { title });
+app.get("/projects", async (req, res) => {
+	try {
+		const projects = await getAllProjects();
+		const title = "Service Projects";
+		res.render("projects", { title, projects });
+	} catch (e) {
+		res.status(500).send("Error retrieving projects", e.message);
+		console.error(e);
+	}
 });
 
-app.use("/categories", (req, res) => {
-	const title = "Service Categories";
-	res.render("categories", { title });
+app.use("/categories", async (req, res) => {
+	try {
+		const title = "Service Categories";
+		const categories = await getAllCategories();
+		res.render("categories", { title, categories });
+	} catch (e) {
+		res.status(500).send("Error retrieving categories", e.message);
+		console.error(e);
+	}
 });
 
 app.listen(PORT, async () => {

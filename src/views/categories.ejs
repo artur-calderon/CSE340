@@ -3,22 +3,9 @@
 	<h1><%= title %></h1>
 
 	<ul>
-		<li><a href="/categories/environmental">Environmental</a></li>
-		<li><a href="/categories/educational">Community Service</a></li>
-		<li>
-			<a
-				href="/categories/healthandwellness
-    "
-				>Health and Wellness</a
-			>
-		</li>
-		<li>
-			<a
-				href="/categories/Educational
-    "
-				>Educational</a
-			>
-		</li>
+		<% categories.forEach(category => { %>
+			<li><a href="/categories/<%= category.name.toLowerCase() %>"><%= category.name %></a></li>
+		<% }) %>
 	</ul>
 </main>
 <%- include('partials/footer') %>
