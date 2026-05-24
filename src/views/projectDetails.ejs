@@ -1,0 +1,167 @@
+<%- include('partials/header') %>
+
+	<style>
+		.project-details {
+			padding: 2rem 1rem 3rem;
+		}
+
+		.back-link {
+			display: inline-block;
+			margin-bottom: 1rem;
+			text-decoration: none;
+			color: #2563eb;
+			font-weight: 600;
+		}
+
+		.card,
+		.empty {
+			background: #ffffff;
+			border: 1px solid #e5e7eb;
+			border-radius: 16px;
+			box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+			padding: 1.5rem;
+		}
+
+		.title {
+			margin: 0 0 0.75rem;
+			font-size: 2rem;
+			line-height: 1.2;
+		}
+
+		.description {
+			margin: 0 0 1.25rem;
+			color: #4b5563;
+		}
+
+		.meta-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+			gap: 1rem;
+			margin: 1.25rem 0;
+		}
+
+		.meta-grid strong,
+		.tech strong,
+		.members strong {
+			display: block;
+			margin-bottom: 0.35rem;
+			font-size: 0.9rem;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			color: #111827;
+		}
+
+		.muted {
+			color: #6b7280;
+		}
+
+		.tech,
+		.members {
+			margin-top: 1.25rem;
+		}
+
+		.tech ul,
+		.members ul {
+			margin: 0.5rem 0 0;
+			padding-left: 1.25rem;
+			color: #374151;
+		}
+
+		.tags {
+			margin-top: 1rem;
+		}
+
+		.tag {
+			display: inline-block;
+			margin: 0 0.5rem 0.5rem 0;
+			padding: 0.35rem 0.6rem;
+			background: #eef2ff;
+			color: #3730a3;
+			border-radius: 9999px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 0.85rem;
+		}
+
+		.actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+			margin-top: 1.5rem;
+		}
+
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0.75rem 1rem;
+			border-radius: 10px;
+			border: 1px solid #2563eb;
+			background: #2563eb;
+			color: #ffffff;
+			text-decoration: none;
+			font-weight: 600;
+			cursor: pointer;
+		}
+
+		.btn:hover {
+			filter: brightness(0.95);
+		}
+
+		.btn.danger {
+			border-color: #dc2626;
+			background: #dc2626;
+		}
+
+		.inline-form {
+			display: inline;
+		}
+
+		.empty {
+			text-align: center;
+			color: #6b7280;
+		}
+	</style>
+
+	<main class="container project-details">
+		<a class="back-link" href="/projects">&larr; Back to projects</a>
+
+		<% if (!project) { %>
+			<section class="empty">Project not found.</section>
+		<% } else { %>
+		<section class="card">
+			<h1 class="title"><%= project.title || 'Untitled Project' %></h1>
+			<% if (project.description) { %>
+				<p class="description"><%= project.description %></p>
+			<% } %>
+
+			<div class="meta-grid">
+				<div><strong>Owner</strong><div class="muted">
+					<% if (project.organization_id) { %>
+						<a href="/organizations/<%= project.organization_id %>"><%= project.organization_name || '—' %></a>
+					<% } else { %>
+						<%= project.organization_name || '—' %>
+					<% } %>
+				</div></div>
+				<div><strong>Date</strong><div class="muted"><%= new Date(project.date).toLocaleDateString('en-US',{ year: 'numeric', month: 'long', day: 'numeric' })  || '—' %></div></div>
+                <div><strong>Location</strong><div class="muted"><%= project.location || '—' %></div></div>
+			</div>
+
+			<% if (project.categories && project.categories.length) { %>
+				<div class="tags">
+					<strong>Categories</strong>
+					<div style="margin-top:0.5rem">
+						<% project.categories.forEach(function(cat){ %>
+							<a class="tag" href="/categories/<%= cat.category_id %>"><%= cat.name %></a>
+						<% }) %>
+					</div>
+				</div>
+			<% } %>
+
+
+			
+		</section>
+		<% } %>
+	</main>
+
+<%- include('partials/footer') %>

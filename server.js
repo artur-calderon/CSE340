@@ -3,6 +3,10 @@ import { fileURLToPath } from "url";
 import path from "path";
 import router from "./src/route.js";
 import { testConnection } from "./src/models/db.js";
+import {
+	notFoundErrorController,
+	errorMiddleware,
+} from "./src/controllers/errors.js";
 
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || "production";
 const PORT = process.env.PORT || 3000;
@@ -29,6 +33,9 @@ app.use((req, res, next) => {
 });
 
 app.use(router);
+
+app.use(notFoundErrorController);
+app.use(errorMiddleware);
 
 app.listen(PORT, async () => {
 	try {

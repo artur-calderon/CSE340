@@ -4,7 +4,7 @@
 
 	<ul>
 		<% categories.forEach(category => { %>
-			<li><a href="/categories/<%= category.name.toLowerCase() %>"><%= category.name %></a></li>
+			<li><a href="/categories/<%= category.category_id %>"><%= category.name %></a></li>
 		<% }) %>
 	</ul>
 </main>

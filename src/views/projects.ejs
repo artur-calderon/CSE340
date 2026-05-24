@@ -29,10 +29,15 @@
 					<% list.forEach((project, idx) => { %>
 					<tr>
 						<% if (idx === 0) { %>
-						<td rowspan="<%= list.length %>"><%= org %></td>
+						<td rowspan="<%= list.length %>">
+							<a href="/organizations/<%= list[0].organization_id %>"><%= org %></a>
+						</td>
 						<% } %>
-						<td><%= project.title %></td>
+						<td>
+							<a href="/projects/<%= project.project_id %>"><%= project.title %></a>
+						</td>
 						<td><%= new Date(project.date).toLocaleDateString('en-US',{ year: 'numeric', month: 'long', day: 'numeric' }) %></td>
+
 					</tr>
 					<% }) %>
 				<% }) %>

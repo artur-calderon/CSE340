@@ -4,13 +4,15 @@ import {
 	organizationsPageController,
 	showOrganizationDetailsPage,
 } from "./controllers/organizations.js";
-import { projectsPageController } from "./controllers/projects.js";
-import { categoriesPageController } from "./controllers/categories.js";
 import {
-	errorMiddleware,
-	notFoundErrorController,
-	testErrorController,
-} from "./controllers/errors.js";
+	projectsPageController,
+	showProjectDetailsPage,
+} from "./controllers/projects.js";
+import {
+	categoriesPageController,
+	showCategoryDetailsPage,
+} from "./controllers/categories.js";
+import { testErrorController } from "./controllers/errors.js";
 
 const router = express.Router();
 
@@ -21,13 +23,11 @@ router.get("/organizations", organizationsPageController);
 router.get("/organizations/:id", showOrganizationDetailsPage);
 
 router.get("/projects", projectsPageController);
+router.get("/projects/:id", showProjectDetailsPage);
 
 router.get("/categories", categoriesPageController);
+router.get("/categories/:id", showCategoryDetailsPage);
 
 router.get("/test-error", testErrorController);
-
-router.use(notFoundErrorController);
-
-router.use(errorMiddleware);
 
 export default router;
