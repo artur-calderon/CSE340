@@ -52,4 +52,31 @@ const createOrganization = async (
 	return result.rows[0].organization_id;
 };
 
-export { getAllOrganizations, getOrganizationById, createOrganization };
+const updateOrganization = async (
+	organizationId,
+	name,
+	description,
+	contactEmail,
+) => {
+	const query = `
+      UPDATE organization
+      SET name = $2, description = $3, contact_email = $4
+      WHERE organization_id = $1
+    `;
+
+	const queryParams = [organizationId, name, description, contactEmail];
+	const result = await db.query(query, queryParams);
+
+	if (process.env.ENABLE_SQL_LOGGING === "true") {
+		console.log("Updated organization with ID:", organizationId);
+	}
+
+	return result.rowCount > 0;
+};
+
+export {
+	getAllOrganizations,
+	getOrganizationById,
+	createOrganization,
+	updateOrganization,
+};
