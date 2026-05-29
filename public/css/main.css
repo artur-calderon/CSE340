@@ -69,6 +69,78 @@ main h2{
     font-weight:500;
 }
 
+main form{
+    margin-top:24px;
+    display:grid;
+    gap:18px;
+    max-width:720px;
+}
+
+.form-group{
+    display:grid;
+    gap:8px;
+}
+
+.form-group label{
+    font-weight:700;
+    color:var(--text);
+    font-size:0.95rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid rgba(15,23,36,0.14);
+    border-radius:10px;
+    background:#fbfcfe;
+    color:var(--text);
+    font:inherit;
+    box-shadow:inset 0 1px 2px rgba(15,23,36,0.03);
+    transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease, background-color .18s ease;
+}
+
+.form-group textarea{
+    min-height:140px;
+    resize:vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+    outline:none;
+    border-color:rgba(0,102,204,0.55);
+    box-shadow:0 0 0 4px rgba(0,102,204,0.12);
+    background:#ffffff;
+}
+
+main form button[type="submit"]{
+    justify-self:start;
+    border:0;
+    border-radius:10px;
+    padding:12px 18px;
+    background:linear-gradient(180deg, #0b74db, #0066cc);
+    color:#ffffff;
+    font:inherit;
+    font-weight:700;
+    letter-spacing:0.2px;
+    cursor:pointer;
+    box-shadow:0 10px 20px rgba(0,102,204,0.18);
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+
+main form button[type="submit"]:hover{
+    transform:translateY(-1px);
+    box-shadow:0 14px 24px rgba(0,102,204,0.22);
+    filter:saturate(1.05);
+}
+
+main form button[type="submit"]:active{
+    transform:translateY(0);
+    box-shadow:0 8px 16px rgba(0,102,204,0.18);
+}
+
 p{line-height:1.6;color:var(--muted)}
 
 .main-logo{
@@ -129,6 +201,7 @@ footer{
     nav ul{justify-content:center}
     main ul li{flex-direction:column;align-items:flex-start}
     main ul li img{width:56px;height:56px}
+    main form button[type="submit"]{width:100%;justify-self:stretch;text-align:center}
 }
 
 /* Projects table — modern, project-styled */
@@ -174,4 +247,54 @@ footer{
     .projects-table thead{display:table-header-group}
     .projects-table tr{display:table-row}
     .projects-table th, .projects-table td{white-space:nowrap; padding:12px 10px}
+}
+/* Flash message styles */
+.flash-stack{
+    max-width:1100px;
+    margin:0 auto 10px auto;
+    padding:0 34px;
+    display:grid;
+    gap:10px;
+}
+
+.alert {
+    padding:14px 16px;
+    border:1px solid transparent;
+    border-left-width:5px;
+    border-radius:12px;
+    box-shadow:0 8px 18px rgba(15,23,36,0.08);
+    font-weight:600;
+    line-height:1.5;
+}
+
+.alert.success {
+    color:#14532d;
+    background:linear-gradient(180deg, #ecfdf3, #dcfce7);
+    border-color:#86efac;
+    border-left-color:#16a34a;
+}
+
+.alert.error {
+    color:#7f1d1d;
+    background:linear-gradient(180deg, #fef2f2, #fee2e2);
+    border-color:#fca5a5;
+    border-left-color:#dc2626;
+}
+
+.alert.warning {
+    color:#78350f;
+    background:linear-gradient(180deg, #fffbea, #fef3c7);
+    border-color:#fcd34d;
+    border-left-color:#d97706;
+}
+
+.alert.info {
+    color:#155e75;
+    background:linear-gradient(180deg, #ecfeff, #cffafe);
+    border-color:#67e8f9;
+    border-left-color:#0891b2;
+}
+
+@media (max-width:720px){
+    .flash-stack{padding:0 16px}
 }

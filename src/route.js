@@ -3,6 +3,9 @@ import { indexPageController } from "./controllers/index.js";
 import {
 	organizationsPageController,
 	showOrganizationDetailsPage,
+	showNewOrganizationPage,
+	processNewOrganizationForm,
+	organizationValidation,
 } from "./controllers/organizations.js";
 import {
 	projectsPageController,
@@ -21,6 +24,12 @@ router.get("/", indexPageController);
 router.get("/organizations", organizationsPageController);
 
 router.get("/organizations/:id", showOrganizationDetailsPage);
+router.get("/new-organization", showNewOrganizationPage);
+router.post(
+	"/new-organization",
+	organizationValidation,
+	processNewOrganizationForm,
+);
 
 router.get("/projects", projectsPageController);
 router.get("/projects/:id", showProjectDetailsPage);

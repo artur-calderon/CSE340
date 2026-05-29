@@ -15,5 +15,16 @@
 				<li><a href="/categories">Categories</a></li>
 			</ul>
 		</nav>
+		
+		<% const messages = flash(); %>
+		<% Object.entries(messages).forEach(([type, items]) => { %>
+			<% if (items.length > 0) { %>
+				<div class="flash-stack" aria-live="polite" aria-atomic="true">
+					<% items.forEach(msg => { %>
+						<div class="alert <%= type %> flash-message"><%= msg %></div>
+					<% }); %>
+				</div>
+			<% } %>
+		<% }); %>
 	</body>
 </html>
