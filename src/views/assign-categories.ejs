@@ -1,0 +1,125 @@
+<%- include('partials/header') %>
+
+<style>
+	.assign-categories {
+		padding: 2rem 1rem 3rem;
+	}
+
+	.card {
+		max-width: 760px;
+		margin: 0 auto;
+		background: #ffffff;
+		border: 1px solid #e5e7eb;
+		border-radius: 16px;
+		box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+		padding: 1.5rem;
+	}
+
+	.back-link {
+		display: inline-block;
+		margin-bottom: 1rem;
+		text-decoration: none;
+		color: #2563eb;
+		font-weight: 600;
+	}
+
+	.title {
+		margin: 0 0 0.5rem;
+		font-size: 2rem;
+		line-height: 1.2;
+	}
+
+	.subtitle {
+		margin: 0 0 1.5rem;
+		color: #4b5563;
+	}
+
+	.options {
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.option {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.85rem 1rem;
+		border: 1px solid #e5e7eb;
+		border-radius: 12px;
+		background: #f9fafb;
+	}
+
+	.option input {
+		width: 1.1rem;
+		height: 1.1rem;
+	}
+
+	.actions {
+		display: flex;
+		gap: 0.75rem;
+		margin-top: 1.5rem;
+	}
+
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.75rem 1rem;
+		border-radius: 10px;
+		border: 1px solid #2563eb;
+		background: #2563eb;
+		color: #ffffff;
+		text-decoration: none;
+		font-weight: 600;
+		cursor: pointer;
+	}
+
+	.btn.secondary {
+		border-color: #d1d5db;
+		background: #ffffff;
+		color: #111827;
+	}
+
+	.muted {
+		color: #6b7280;
+	}
+</style>
+
+<main class="container assign-categories">
+	<a class="back-link" href="/projects/<%= projectId %>">&larr; Back to project</a>
+
+	<section class="card">
+		<h1 class="title"><%= title %></h1>
+		<p class="subtitle">
+			Assign categories for <strong><%= projectDetails ? projectDetails.title : 'Project' %></strong>
+		</p>
+
+		<%
+			const assignedCategoryIds = new Set((assignedCategories || []).map(category => String(category.category_id)));
+		%>
+
+		<form method="POST" action="/project/<%= projectId %>/assign-categories">
+			<div class="options">
+				<% categories.forEach(category => { %>
+					<label class="option">
+						<input
+							type="checkbox"
+							name="categoryIds"
+							value="<%= category.category_id %>"
+							<%= assignedCategoryIds.has(String(category.category_id)) ? 'checked' : '' %>
+						/>
+						<span><%= category.name %></span>
+					</label>
+				<% }) %>
+			</div>
+
+			<div class="actions">
+				<button class="btn" type="submit">Save Categories</button>
+				<a class="btn secondary" href="/projects/<%= projectId %>">Cancel</a>
+			</div>
+		</form>
+		<p class="muted" style="margin-top: 1rem;">Selecting none will remove all category assignments for this project.</p>
+	</section>
+</main>
+
+<%- include('partials/footer') %>

@@ -27,9 +27,68 @@ const getProjectDetails = async (projectId) => {
 	return result.rows[0];
 };
 
+const createProject = async (
+	title,
+	organizationId,
+	date,
+	description,
+	location,
+) => {
+	const query = `INSERT INTO public.service_project (title, organization_id, date, description, location) VALUES ($1, $2, $3, $4, $5) RETURNING project_id;`;
+	const queryParams = [title, organizationId, date, description, location];
+	const result = await db.query(query, queryParams);
+
+	if (result.rows.length === 0) {
+		throw new Error("Failed to create project");
+	}
+
+	if (process.env.ENABLE_SQL_LOGGING === "true") {
+		console.log("Created new project with ID:", result.rows[0].project_id);
+	}
+
+	return result.rows[0].project_id;
+};
+
+const updateProject = async (
+	projectId,
+	title,
+	organizationId,
+	date,
+	description,
+	location,
+) => {
+	const query = `
+		UPDATE public.service_project
+		SET title = $2, organization_id = $3, date = $4, description = $5, location = $6
+		WHERE project_id = $1
+		RETURNING project_id;
+	`;
+	const queryParams = [
+		projectId,
+		title,
+		organizationId,
+		date,
+		description,
+		location,
+	];
+	const result = await db.query(query, queryParams);
+
+	if (result.rows.length === 0) {
+		throw new Error("Failed to update project");
+	}
+
+	if (process.env.ENABLE_SQL_LOGGING === "true") {
+		console.log("Updated project with ID:", projectId);
+	}
+
+	return result.rows[0].project_id;
+};
+
 export {
 	getAllProjects,
 	getProjectByOrganizationId,
 	getUpcomingProjects,
 	getProjectDetails,
+	createProject,
+	updateProject,
 };

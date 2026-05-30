@@ -12,10 +12,17 @@ import {
 import {
 	projectsPageController,
 	showProjectDetailsPage,
+	showNewProjectForm,
+	processNewProjectForm,
+	showEditProjectForm,
+	processEditProjectForm,
+	projectValidation,
 } from "./controllers/projects.js";
 import {
 	categoriesPageController,
 	showCategoryDetailsPage,
+	showAssignCategoriesForm,
+	processAssignCategoriesForm,
 } from "./controllers/categories.js";
 import { testErrorController } from "./controllers/errors.js";
 
@@ -41,6 +48,20 @@ router.post(
 
 router.get("/projects", projectsPageController);
 router.get("/projects/:id", showProjectDetailsPage);
+router.get("/new-project", showNewProjectForm);
+router.post("/new-project", projectValidation, processNewProjectForm);
+router.get("/edit-project/:id", showEditProjectForm);
+router.post("/edit-project/:id", projectValidation, processEditProjectForm);
+router.get("/projects/:projectId/assign-categories", showAssignCategoriesForm);
+router.post(
+	"/projects/:projectId/assign-categories",
+	processAssignCategoriesForm,
+);
+router.get("/project/:projectId/assign-categories", showAssignCategoriesForm);
+router.post(
+	"/project/:projectId/assign-categories",
+	processAssignCategoriesForm,
+);
 
 router.get("/categories", categoriesPageController);
 router.get("/categories/:id", showCategoryDetailsPage);
