@@ -41,6 +41,12 @@ app.use((req, res, next) => {
 	if (NODE_ENV === "development") {
 		console.log(`${req.method} ${req.url}`);
 	}
+
+	res.locals.isLogged_in = false;
+	if (req.session.user) {
+		res.locals.isLogged_in = true;
+		res.locals.user = req.session.user;
+	}
 	next();
 });
 

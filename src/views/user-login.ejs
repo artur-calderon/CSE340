@@ -1,0 +1,74 @@
+<%- include('partials/header') %>
+<main>
+	<h1><%= title %></h1>
+
+	<p>Entre na sua conta para gerenciar projetos e organizações.</p>
+
+	<form action="/login" method="POST" id="loginForm">
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input
+				type="email"
+				id="email"
+				name="email"
+				required
+				maxlength="200" />
+		</div>
+
+		<div class="form-group">
+			<label for="password">Senha</label>
+			<input
+				type="password"
+				id="password"
+				name="password"
+				required
+				minlength="8" />
+		</div>
+
+		<div class="form-group">
+			<label>
+				<input type="checkbox" name="remember" /> Manter-me conectado
+			</label>
+		</div>
+
+		<button type="submit">Entrar</button>
+
+		<p style="margin-top: 12px">
+			Ainda não tem conta? <a href="/register">Cadastre-se</a> ·
+			<a href="/forgot-password">Esqueci minha senha</a>
+		</p>
+	</form>
+
+	<script>
+		(function () {
+			const form = document.getElementById("loginForm");
+			const email = document.getElementById("email");
+			const pwd = document.getElementById("password");
+
+			function showError(message) {
+				const existing = document.querySelector(".form-error");
+				if (existing) existing.remove();
+				const el = document.createElement("div");
+				el.className = "form-error alert error";
+				el.textContent = message;
+				form.parentNode.insertBefore(el, form);
+			}
+
+			form.addEventListener("submit", function (e) {
+				if (!email.checkValidity()) {
+					e.preventDefault();
+					showError("Informe um endereço de email válido.");
+					email.focus();
+					return false;
+				}
+				if (!pwd.value || pwd.value.length < 8) {
+					e.preventDefault();
+					showError("Informe sua senha (mínimo 8 caracteres).");
+					pwd.focus();
+					return false;
+				}
+			});
+		})();
+	</script>
+</main>
+<%- include('partials/footer') %>

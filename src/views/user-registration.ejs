@@ -1,0 +1,83 @@
+<%- include('partials/header') %>
+<main>
+	<h1><%= title %></h1>
+
+	<p>Crie uma conta para acessar e contribuir com projetos e organizações.</p>
+
+	<form action="/register" method="POST" id="registerForm">
+		<div class="form-group">
+			<label for="name">Nome completo</label>
+			<input type="text" id="name" name="name" required maxlength="150" />
+		</div>
+
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input
+				type="email"
+				id="email"
+				name="email"
+				required
+				maxlength="200" />
+		</div>
+
+		<div class="form-group">
+			<label for="password">Senha</label>
+			<input
+				type="password"
+				id="password"
+				name="password"
+				required
+				minlength="8" />
+		</div>
+
+		<div class="form-group">
+			<label for="confirmPassword">Confirmar senha</label>
+			<input
+				type="password"
+				id="confirmPassword"
+				name="confirmPassword"
+				required
+				minlength="8" />
+		</div>
+
+		<button type="submit">Registrar</button>
+	</form>
+
+	<script>
+		(function () {
+			const form = document.getElementById("registerForm");
+			const pwd = document.getElementById("password");
+			const confirm = document.getElementById("confirmPassword");
+			const email = document.getElementById("email");
+
+			function showError(message) {
+				// remove existing
+				const existing = document.querySelector(".form-error");
+				if (existing) existing.remove();
+				const el = document.createElement("div");
+				el.className = "form-error alert error";
+				el.textContent = message;
+				form.parentNode.insertBefore(el, form);
+			}
+
+			form.addEventListener("submit", function (e) {
+				// Validação do formato de email usando a validade HTML5
+				if (!email.checkValidity()) {
+					e.preventDefault();
+					showError("Informe um endereço de email válido.");
+					email.focus();
+					return false;
+				}
+
+				if (pwd.value !== confirm.value) {
+					e.preventDefault();
+					showError("As senhas não conferem.");
+					confirm.focus();
+					return false;
+				}
+				// Basic password length already enforced by minlength; optionally add other checks here
+			});
+		})();
+	</script>
+</main>
+<%- include('partials/footer') %>
