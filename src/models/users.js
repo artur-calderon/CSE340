@@ -47,6 +47,10 @@ const authenticateUser = async (email, password) => {
 	if (!isPasswordValid) {
 		return null; // Invalid password
 	}
+	if (process.env.ENABLE_SQL_LOGGING === "true") {
+		console.log("User authenticated successfully:", user.email);
+	}
+
 	const userData = {
 		user_id: user.user_id,
 		name: user.name,

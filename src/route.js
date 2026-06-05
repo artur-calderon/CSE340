@@ -37,6 +37,8 @@ import {
 	showLoginPage,
 	processLoginForm,
 	processLogout,
+	requireLogin,
+	showDashboard,
 } from "./controllers/users.js";
 
 const router = express.Router();
@@ -48,6 +50,8 @@ router.get("/login", showLoginPage);
 router.post("/login", processLoginForm);
 router.get("/logout", processLogout);
 router.get("/organizations", organizationsPageController);
+
+router.get("/dashboard", requireLogin, showDashboard);
 
 router.get("/organizations/:id", showOrganizationDetailsPage);
 router.get("/new-organization", showNewOrganizationPage);

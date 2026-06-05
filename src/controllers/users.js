@@ -33,8 +33,10 @@ const processLoginForm = async (req, res) => {
 			req.session.user = user;
 			req.flash("success", "Login successful!");
 			console.log("User authenticated:", user);
-			return res.redirect("/");
+			return res.redirect("/dashboard");
 		}
+		req.flash("error", "Invalid email or password. Please try again.");
+		return res.redirect("/login");
 	} catch (error) {
 		console.error("Error during authentication:", error);
 		req.flash("error", "An error occurred during login. Please try again.");
@@ -48,10 +50,24 @@ const processLogout = (req, res) => {
 	res.redirect("/login");
 };
 
+const requireLogin = (req, res, next) => {
+	if (!req.session.user || !req.session) {
+		req.flash("error", "You must be logged in to access this page.");
+		return res.redirect("/login");
+	}
+	next();
+};
+
+const showDashboard = (req, res) => {
+	res.render("dashboard", { title: "Dashboard", user: req.session.user });
+};
+
 export {
 	showRegistrationForm,
 	processUserRegistrationForm,
 	showLoginPage,
 	processLoginForm,
 	processLogout,
+	requireLogin,
+	showDashboard,
 };
