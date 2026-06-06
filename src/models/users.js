@@ -20,7 +20,8 @@ const createNewUser = async (name, email, passwordHash) => {
 };
 
 const findUserByEmail = async (email) => {
-	const query = "SELECT * FROM public.users WHERE email = $1;";
+	const query =
+		"SELECT u.user_id, u.name, u.email, u.password_hash, u.role_id, r.role_name FROM public.users u JOIN roles r ON u.role_id = r.role_id WHERE email = $1;";
 	const values = [email];
 	const result = await db.query(query, values);
 
@@ -51,13 +52,15 @@ const authenticateUser = async (email, password) => {
 		console.log("User authenticated successfully:", user.email);
 	}
 
-	const userData = {
-		user_id: user.user_id,
-		name: user.name,
-		email: user.email,
-		role_id: user.role_id,
-	};
-	return userData; // Authentication successful
+	// const userData = {
+	// 	user_id: user.user_id,
+	// 	name: user.name,
+	// 	email: user.email,
+	// 	role_id: user.role_id,
+	// 	role_name: user.role_name,
+	// };
+	console.log(user);
+	return user; // Authentication successful
 };
 
 export { createNewUser, authenticateUser };

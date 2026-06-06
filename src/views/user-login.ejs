@@ -17,12 +17,7 @@
 
 		<div class="form-group">
 			<label for="password">Senha</label>
-			<input
-				type="password"
-				id="password"
-				name="password"
-				required
-				minlength="8" />
+			<input type="password" id="password" name="password" required />
 		</div>
 
 		<div class="form-group">
@@ -38,37 +33,5 @@
 			<a href="/forgot-password">Esqueci minha senha</a>
 		</p>
 	</form>
-
-	<script>
-		(function () {
-			const form = document.getElementById("loginForm");
-			const email = document.getElementById("email");
-			const pwd = document.getElementById("password");
-
-			function showError(message) {
-				const existing = document.querySelector(".form-error");
-				if (existing) existing.remove();
-				const el = document.createElement("div");
-				el.className = "form-error alert error";
-				el.textContent = message;
-				form.parentNode.insertBefore(el, form);
-			}
-
-			form.addEventListener("submit", function (e) {
-				if (!email.checkValidity()) {
-					e.preventDefault();
-					showError("Informe um endereço de email válido.");
-					email.focus();
-					return false;
-				}
-				if (!pwd.value || pwd.value.length < 8) {
-					e.preventDefault();
-					showError("Informe sua senha (mínimo 8 caracteres).");
-					pwd.focus();
-					return false;
-				}
-			});
-		})();
-	</script>
 </main>
 <%- include('partials/footer') %>

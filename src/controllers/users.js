@@ -58,8 +58,31 @@ const requireLogin = (req, res, next) => {
 	next();
 };
 
+const requireRole = (role) => {
+	return (req, res, next) => {
+		if (!req.session || !req.session.user) {
+			req.flash("error", "You must be logged in to access this page.");
+			return res.redirect("/login");
+		}
+
+		if (req.session.user.role_name !== role) {
+			req.flash(
+				"error",
+				"You do not have permission to access this page.",
+			);
+			return res.redirect("/");
+		}
+		next();
+	};
+};
+
 const showDashboard = (req, res) => {
 	res.render("dashboard", { title: "Dashboard", user: req.session.user });
+};
+
+const showAdminPage = (req, res) => {
+	const title = "Admin Panel";
+	res.render("admin-page", { title, user: req.session.user });
 };
 
 export {
@@ -69,5 +92,7 @@ export {
 	processLoginForm,
 	processLogout,
 	requireLogin,
+	requireRole,
 	showDashboard,
+	showAdminPage,
 };
