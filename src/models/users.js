@@ -1,6 +1,17 @@
 import db from "./db.js";
 import bcrypt from "bcrypt";
 
+const getAllUsers = async () => {
+	const query =
+		"SELECT u.user_id, u.name, u.email, r.role_name FROM public.users u JOIN roles r ON u.role_id = r.role_id";
+
+	const result = await db.query(query);
+	if (process.env.ENABLE_SQL_LOGGING === "true") {
+		console.log("Executed SQL:", query);
+	}
+	return result.rows;
+};
+
 const createNewUser = async (name, email, passwordHash) => {
 	const default_role = "user"; // Assuming 'user' is the default role name
 	const query = `INSERT INTO public.users (name, email,  password_hash, role_id) VALUES ($1, $2, $3, (SELECT role_id FROM roles WHERE role_name = $4)) RETURNING user_id;`;
@@ -52,15 +63,7 @@ const authenticateUser = async (email, password) => {
 		console.log("User authenticated successfully:", user.email);
 	}
 
-	// const userData = {
-	// 	user_id: user.user_id,
-	// 	name: user.name,
-	// 	email: user.email,
-	// 	role_id: user.role_id,
-	// 	role_name: user.role_name,
-	// };
-	console.log(user);
 	return user; // Authentication successful
 };
 
-export { createNewUser, authenticateUser };
+export { createNewUser, authenticateUser, getAllUsers };

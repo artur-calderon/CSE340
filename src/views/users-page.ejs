@@ -1,0 +1,34 @@
+
+		<%- include('./partials/header') %>
+
+		<main class="container">
+			<h1>Registered Users</h1>
+
+			<% if (Array.isArray(users) && users.length) { %>
+				<table class="users-table" border="1" cellpadding="8" cellspacing="0">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>Email</th>
+							<th>Role</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% users.forEach(function(user, idx) { %>
+							<tr>
+								<td><%= idx + 1 %></td>
+								<td><%= user.name %></td>
+								<td><%= user.email %></td>
+								<td><%= user.role_name %></td>
+							</tr>
+						<% }) %>
+					</tbody>
+				</table>
+			<% } else { %>
+				<p>No users registered.</p>
+			<% } %>
+		</main>
+
+		<%- include('./partials/footer') %>
+

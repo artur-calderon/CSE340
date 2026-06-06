@@ -41,6 +41,7 @@ import {
 	showDashboard,
 	showAdminPage,
 	requireRole,
+	showUsersPage,
 } from "./controllers/users.js";
 
 const router = express.Router();
@@ -131,5 +132,5 @@ router.post(
 router.get("/categories/:id", showCategoryDetailsPage);
 
 router.get("/test-error", testErrorController);
-
+router.get("/users", requireRole("admin"), showUsersPage);
 export default router;
