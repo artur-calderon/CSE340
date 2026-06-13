@@ -24,4 +24,15 @@
 
 </main>
 
+
+<main>
+	<h1>Dashboard</h1>
+	<p><strong>Nome:</strong> <%= user.name %></p>
+	<p><strong>Email:</strong> <%= user.email %></p>
+	<ul>
+		<% if (user.role_id === 2) { %>
+		<li><a href="/admin">Admin Panel</a></li>
+		<% } %>
+	</ul>
+</main>
 <%- include('partials/footer') %>

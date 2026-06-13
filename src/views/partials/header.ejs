@@ -13,9 +13,18 @@
 				<li><a href="/organizations">Organizations</a></li>
 				<li><a href="/projects">Projects</a></li>
 				<li><a href="/categories">Categories</a></li>
+
                 <% if (typeof currentUserId !== 'undefined' && currentUserId) { %>
                     <li><a href="/dashboard">Dashboard</a></li>
                 <% } %>
+				<% if (isLogged_in) { %>
+					<li><a href="/logout">Logout</a></li>
+					<span class="nav-user">Hello, <%= user.name %>!</span>
+					<li><a href="/dashboard">My Dashboard</a></li>
+				<% } else { %>
+					<li><a href="/register">Register</a></li>
+					<li><a href="/login">Login</a></li>
+					<% } %>
 			</ul>
 		</nav>
 		
