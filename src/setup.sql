@@ -3,6 +3,7 @@
 -- ==========================================
 
 DROP TABLE IF EXISTS
+    volunteer_signup,
     service_project_category,
     service_project,
     categories,
@@ -51,6 +52,17 @@ CREATE TABLE service_project_category (
     CONSTRAINT fk_spc_category
         FOREIGN KEY (category_id)
         REFERENCES categories(category_id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE volunteer_signup (
+    user_id INTEGER NOT NULL,
+    project_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, project_id),
+    CONSTRAINT fk_vs_project
+        FOREIGN KEY (project_id)
+        REFERENCES service_project(project_id)
         ON DELETE CASCADE
 );
 
@@ -146,20 +158,6 @@ VALUES
 -- Community Housing Project
 (1, 1),
 (1, 5),
-
-CREATE TABLE volunteer_signup (
-    user_id INTEGER NOT NULL,
-    project_id INTEGER NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (user_id, project_id),
-    CONSTRAINT fk_vs_project
-        FOREIGN KEY (project_id)
-        REFERENCES service_project(project_id)
-        ON DELETE CASCADE
-);
-
-
-=======
 -- School Renovation Program
 (2, 1),
 (2, 4),

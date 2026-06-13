@@ -4,6 +4,7 @@ import {
 	authenticateUser,
 	getAllUsers,
 } from "../models/users.js";
+import { getProjectsForUser } from "../models/volunteers.js";
 
 const showRegistrationForm = (req, res) => {
 	res.render("user-registration", { title: "Register" });
@@ -35,6 +36,7 @@ const processLoginForm = async (req, res) => {
 		const user = await authenticateUser(email, password);
 		if (user) {
 			req.session.user = user;
+			req.session.userId = user.user_id; // ensure other controllers using userId work
 			req.flash("success", "Login successful!");
 			console.log("User authenticated:", user);
 			return res.redirect("/dashboard");
@@ -80,8 +82,15 @@ const requireRole = (role) => {
 	};
 };
 
-const showDashboard = (req, res) => {
-	res.render("dashboard", { title: "Dashboard", user: req.session.user });
+const showDashboard = async (req, res) => {
+	const user = req.session.user;
+	const userId = req.session && req.session.userId;
+	let volunteerProjects = [];
+	if (userId) {
+		volunteerProjects = await getProjectsForUser(userId);
+	}
+
+	res.render("dashboard", { title: "Dashboard", user, volunteerProjects });
 };
 
 const showAdminPage = (req, res) => {
