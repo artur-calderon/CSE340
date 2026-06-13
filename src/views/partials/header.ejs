@@ -13,6 +13,9 @@
 				<li><a href="/organizations">Organizations</a></li>
 				<li><a href="/projects">Projects</a></li>
 				<li><a href="/categories">Categories</a></li>
+                <% if (typeof currentUserId !== 'undefined' && currentUserId) { %>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                <% } %>
 			</ul>
 		</nav>
 		

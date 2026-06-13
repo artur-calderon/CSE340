@@ -138,3 +138,18 @@ VALUES
 ('UnityServe Volunteers', 'A volunteer coordination group supporting local charities and service initiatives.', 'hello@unityserve.org', 'unityserve-logo.png');
 
 
+-- Volunteer signups table: tracks which users have volunteered for which projects
+-- NOTE: This schema assumes your application keeps track of authenticated users
+-- with an integer `user_id`. Adjust the foreign key or column type as needed.
+CREATE TABLE volunteer_signup (
+    user_id INTEGER NOT NULL,
+    project_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, project_id),
+    CONSTRAINT fk_vs_project
+        FOREIGN KEY (project_id)
+        REFERENCES service_project(project_id)
+        ON DELETE CASCADE
+);
+
+

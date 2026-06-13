@@ -1,5 +1,5 @@
 import express from "express";
-import { indexPageController } from "./controllers/index.js";
+import { indexPageController, showDashboardPage } from "./controllers/index.js";
 import {
 	organizationsPageController,
 	showOrganizationDetailsPage,
@@ -18,6 +18,8 @@ import {
 	processEditProjectForm,
 	projectValidation,
 } from "./controllers/projects.js";
+import { processVolunteer, processUnvolunteer } from "./controllers/projects.js";
+import { ensureAuthenticated } from "./middleware/auth.js";
 import {
 	categoriesPageController,
 	showCategoryDetailsPage,
@@ -53,6 +55,8 @@ router.post(
 
 router.get("/projects", projectsPageController);
 router.get("/projects/:id", showProjectDetailsPage);
+router.post("/projects/:id/volunteer", ensureAuthenticated, processVolunteer);
+router.post("/projects/:id/unvolunteer", ensureAuthenticated, processUnvolunteer);
 router.get("/new-project", showNewProjectForm);
 router.post("/new-project", projectValidation, processNewProjectForm);
 router.get("/edit-project/:id", showEditProjectForm);
@@ -76,5 +80,7 @@ router.post("/edit-category/:id", categoryValidation, processEditCategoryForm);
 router.get("/categories/:id", showCategoryDetailsPage);
 
 router.get("/test-error", testErrorController);
+
+router.get("/dashboard", ensureAuthenticated, showDashboardPage);
 
 export default router;

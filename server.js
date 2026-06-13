@@ -49,6 +49,12 @@ app.use((req, res, next) => {
 	next();
 });
 
+// Expose current user id to views (if any). The app uses `req.session.userId` when authenticated.
+app.use((req, res, next) => {
+	res.locals.currentUserId = req.session && req.session.userId;
+	next();
+});
+
 app.use(router);
 
 app.use(notFoundErrorController);

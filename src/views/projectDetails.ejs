@@ -163,6 +163,20 @@
 				<a class="btn" href="/project/<%= project.project_id %>/assign-categories">Edit Categories</a>
 			</div>
 
+			<% if (typeof currentUserId !== 'undefined' && currentUserId) { %>
+				<div class="actions">
+					<% if (!isVolunteer) { %>
+						<form class="inline-form" method="post" action="/projects/<%= project.project_id %>/volunteer">
+							<button type="submit" class="btn">Volunteer for this project</button>
+						</form>
+					<% } else { %>
+						<form class="inline-form" method="post" action="/projects/<%= project.project_id %>/unvolunteer">
+							<button type="submit" class="btn danger">You are a volunteer — Remove volunteer</button>
+						</form>
+					<% } %>
+				</div>
+			<% } %>
+
 
 			
 		</section>

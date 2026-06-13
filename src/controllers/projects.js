@@ -6,6 +6,13 @@ import {
 	updateProject,
 } from "../models/project.js";
 
+import {
+	addVolunteerToProject,
+	removeVolunteerFromProject,
+	getProjectsForUser,
+	isUserVolunteerForProject,
+} from "../models/volunteers.js";
+
 import { getAllOrganizations } from "../models/organizations.js";
 
 import { getCategoriesByProjectId } from "../models/categories.js";
@@ -57,7 +64,11 @@ export const showProjectDetailsPage = async (req, res) => {
 	const project = await getProjectDetails(projectId);
 	const projectsCategories = await getCategoriesByProjectId(projectId);
 	project.categories = projectsCategories;
-	res.render("projectDetails", { title, project });
+	// Determine whether current user is a volunteer for this project
+	const userId = req.session && req.session.userId;
+	const isVolunteer = userId ? await isUserVolunteerForProject(projectId, userId) : false;
+
+	res.render("projectDetails", { title, project, currentUserId: userId, isVolunteer });
 };
 
 export const showNewProjectForm = async (req, res) => {
@@ -124,6 +135,32 @@ export const processEditProjectForm = async (req, res) => {
 
 	req.flash("success", "Project updated successfully!");
 	res.redirect(`/projects/${projectId}`);
+};
+
+export const processVolunteer = async (req, res) => {
+	const projectId = req.params.id;
+	const userId = req.session && req.session.userId;
+	if (!userId) {
+		req.flash("error", "You must be logged in to volunteer");
+		return res.redirect(`/projects/${projectId}`);
+	}
+
+	await addVolunteerToProject(projectId, userId);
+	req.flash("success", "You are now signed up as a volunteer for this project");
+	return res.redirect(`/projects/${projectId}`);
+};
+
+export const processUnvolunteer = async (req, res) => {
+	const projectId = req.params.id;
+	const userId = req.session && req.session.userId;
+	if (!userId) {
+		req.flash("error", "You must be logged in to perform that action");
+		return res.redirect(`/projects/${projectId}`);
+	}
+
+	await removeVolunteerFromProject(projectId, userId);
+	req.flash("success", "You have been removed as a volunteer for this project");
+	return res.redirect(`/projects/${projectId}`);
 };
 
 export { projectValidation };
